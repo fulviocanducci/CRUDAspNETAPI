@@ -37,7 +37,7 @@ namespace Repositories
 
       public async Task<List<People>> GetAllAsync()
       {
-         return await _context.Peoples.ToListAsync();
+         return await _context.Peoples.AsNoTracking().ToListAsync();
       }
 
       public async Task<List<TResult>> GetAllAsync<TResult>(Expression<Func<People, TResult>> select)
