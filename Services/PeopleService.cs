@@ -1,6 +1,7 @@
 ﻿using DataAccess;
 using Repositories;
 using Services.Records.Peoples;
+using Models;
 namespace Services
 {
    public class PeopleService : IPeopleService
@@ -16,14 +17,10 @@ namespace Services
 
       public async Task<PeopleItem> CreateAsync(PeopleCreate model)
       {
-         var people = new Models.People
-         {
-            Name = model.Name,
-            Active = model.Active
-         };
+         People people = People.Create(model.Name, model.Active);
          await _repository.CreateAsync(people);
          await _unitOfWork.CommitAsync();
-         return new PeopleItem(people.Id, people.Name, people.Active);
+         return PeopleItem.Create(people);
       }
 
       public async Task<bool> DeleteAsync(params object[] keys)
@@ -39,15 +36,10 @@ namespace Services
 
       public async Task<PeopleItem> EditAsync(PeopleEdit model)
       {
-         var people = new Models.People
-         {
-            Id = model.Id,
-            Name = model.Name,
-            Active = model.Active
-         };
+         People people = People.Create(model.Id, model.Name, model.Active);
          _repository.Edit(people);
          await _unitOfWork.CommitAsync();
-         return new PeopleItem(people.Id, people.Name, people.Active);
+         return PeopleItem.Create(people);
       }
 
       public async Task<PeopleItem> FindAsync(params object[] keys)
@@ -55,14 +47,14 @@ namespace Services
          var result = await _repository.FindAsync(keys);
          if (result != null)
          {
-            return new PeopleItem(result.Id, result.Name, result.Active);
+            return PeopleItem.Create(result);
          }
          return null;
       }
 
       public async Task<List<PeopleItem>> GetAllAsync()
       {
-         return await _repository.GetAllAsync(x => new PeopleItem(x.Id, x.Name, x.Active));
+         return await _repository.GetAllAsync(x => PeopleItem.Create(x));
       }
    }
 }
