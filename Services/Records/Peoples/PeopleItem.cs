@@ -4,7 +4,15 @@ public record PeopleItem
 {
    public PeopleItem() { }
 
-   public PeopleItem(Models.People result) : this(result.Id, result.Name, result.Active) { }
+   public PeopleItem(Models.People result)
+   {
+      if (result != null)
+      {
+         Id = result.Id;
+         Name = result.Name;
+         Active = result.Active;
+      }
+    }
 
    public PeopleItem(int id, string name, bool active)
    {

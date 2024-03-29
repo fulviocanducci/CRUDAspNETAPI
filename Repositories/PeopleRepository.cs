@@ -43,5 +43,10 @@ namespace Repositories
       {
          return await _context.Peoples.AsNoTracking().Select(select).ToListAsync();
       }
+
+      public async Task<People> GetAsync(int id)
+      {
+         return await _context.Peoples.AsNoTracking().FirstOrDefaultAsync(c => c.Id == id);
+      }
    }
 }

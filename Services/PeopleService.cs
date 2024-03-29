@@ -56,5 +56,10 @@ namespace Services
       {
          return await _repository.GetAllAsync(x => PeopleItem.Create(x));
       }
+
+      public async Task<PeopleItem> GetAsync(int id)
+      {
+         return PeopleItem.Create(await _repository.GetAsync(id));
+      }
    }
 }

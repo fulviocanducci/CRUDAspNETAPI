@@ -28,7 +28,7 @@ namespace API.Controllers
       [ProducesResponseType(StatusCodes.Status404NotFound)]
       public async Task<ActionResult> GetPeopleById(int id)
       {
-         var model = await _peopleService.FindAsync(id);
+         var model = await _peopleService.GetAsync(id);
          if (model == null)
          {
             return NotFound();
@@ -58,7 +58,7 @@ namespace API.Controllers
       [ProducesResponseType(StatusCodes.Status400BadRequest)]
       public async Task<ActionResult> PutPeople(int id, [FromBody] PeopleEdit model)
       {
-         if (ModelState.IsValid)
+         if (ModelState.IsValid && id == model.Id)
          {
             await _peopleService.EditAsync(model);
             return NoContent();
